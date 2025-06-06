@@ -1,6 +1,12 @@
+// Interactive Cyclone Game for Arduino Circuit 
+// Made by Quinn Maher
+
 #include <Adafruit_CircuitPlayground.h>
 
 //Global variables 
+
+float midi[127];
+int A_four = 440;  // a is 440 hz...
 
 const byte buttonR = 4; //Button R declaration
 const byte buttonL = 5; //Button L declaration
@@ -17,6 +23,7 @@ void setup() {
 
 CircuitPlayground.begin();
 Serial.begin(9600);
+generateMIDI();
 delay(5000);
 Serial.println("Welcome to the game, you are currently on level 1");
 pinMode(buttonR, INPUT_PULLDOWN);
@@ -80,6 +87,8 @@ void mainGame() {
 
 void winLights() {
 
+  CircuitPlayground.playTone(midi[73], 300);
+
   for(int i = 0; i < 10; i++) {                 // Code controlling green flash 
   CircuitPlayground.setPixelColor(i, 0x00FF00);
   } delay(500);
@@ -103,6 +112,8 @@ void winLights() {
 
 
 void loseLights() {
+
+ CircuitPlayground.playTone(midi[50], 300);
 
  for(int i = 0; i < 10; i++) {                 // Code controlling red flash 
   CircuitPlayground.setPixelColor(i, 0xFF0000);
@@ -152,4 +163,10 @@ void butR() {
 
 void butL() {
   butLflag = true;
+}
+
+void generateMIDI() {
+  for (int x = 0; x < 127; ++x) {
+    midi[x] = (A_four / 32.0) * pow(2.0, ((x - 9.0) / 12.0));
+  }
 }
