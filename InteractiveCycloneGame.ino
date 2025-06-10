@@ -6,7 +6,7 @@
 //Global variables 
 
 float midi[127];
-int A_four = 440;  // a is 440 hz...
+int A_four = 440;  // Midi Generator taken from Chett Udell
 
 const byte buttonR = 4; //Button R declaration
 const byte buttonL = 5; //Button L declaration
@@ -69,7 +69,7 @@ void mainGame() {
         randomT = random(0, 10); //Redeclare the random target
         gameLevel = gameLevel - 50; // Make game level harder
         if (gameLevel < 50) {
-          rainbowCycle(20,10);
+          gameComplete(20,10);
         }
         
       } else {
@@ -139,7 +139,7 @@ void loseLights() {
 
 //End of game lights 
 
-void rainbowCycle(int currentSpeed, int stripLen) {
+void gameComplete(int currentSpeed, int stripLen) { //Color wheel taken from libraries
   uint32_t offset = millis() / currentSpeed;
   
    for(int i=0; i<10; ++i) {
@@ -165,7 +165,7 @@ void butL() {
   butLflag = true;
 }
 
-void generateMIDI() {
+void generateMIDI() { // Midi Generator taken from Chett Udell
   for (int x = 0; x < 127; ++x) {
     midi[x] = (A_four / 32.0) * pow(2.0, ((x - 9.0) / 12.0));
   }
